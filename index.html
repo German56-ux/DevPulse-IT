@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DevPulse IT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',-apple-system,sans-serif;background:#f6f8fa;color:#1a1a2e;padding:16px;display:flex;justify-content:center;min-height:100vh}
+        .app{max-width:420px;width:100%}
+        .header{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid #f0f2f4;margin-bottom:20px}
+        .logo{font-weight:800;font-size:22px;letter-spacing:-0.3px}
+        .logo .dev{color:#2563EB}
+        .logo .pulse{color:#7C3AED}
+        .logo .it{color:#6B7280;font-size:13px;background:#f3f4f6;padding:2px 10px;border-radius:40px;margin-left:4px}
+        .balance{font-size:13px;font-weight:600;color:#6B7280;background:#f3f4f6;padding:4px 16px;border-radius:40px}
+        .tabs{display:flex;gap:4px;background:#f3f4f6;border-radius:14px;padding:4px;margin-bottom:20px}
+        .tab{flex:1;padding:10px 0;text-align:center;border:none;background:transparent;border-radius:10px;font-weight:600;font-size:13px;color:#6B7280;cursor:pointer;transition:all .2s}
+        .tab.active{background:#fff;color:#2563EB;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+        .services{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+        .service{background:#fff;border:1px solid #f0f2f4;border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .15s}
+        .service:active{transform:scale(.97)}
+        .service .icon{font-size:28px;margin-bottom:4px;line-height:1}
+        .service .name{font-weight:700;font-size:14px}
+        .service .desc{font-size:11px;color:#9CA3AF}
+        .service.active{border-color:#2563EB;background:#EFF6FF}
+        .btn{width:100%;padding:14px;border:none;border-radius:14px;font-weight:700;font-size:15px;cursor:pointer;transition:all .15s}
+        .btn:active{transform:scale(.98)}
+        .btn-primary{background:#2563EB;color:#fff}
+        .btn-primary:hover{background:#1D4ED8}
+        .btn-outline{background:transparent;border:1px solid #e5e7eb;color:#4b5563;margin-top:10px}
+        .btn-outline:hover{background:#f9fafb}
+        .orders{margin-top:24px}
+        .orders .head{display:flex;justify-content:space-between;font-size:14px;font-weight:600;color:#4b5563;margin-bottom:12px}
+        .orders .head .count{font-weight:400;color:#9ca3af;font-size:13px}
+        .order{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#fafbfc;border-radius:14px;margin-bottom:8px;border:1px solid #f0f2f4}
+        .order .info .title{font-weight:600;font-size:14px;color:#1a1a2e}
+        .order .info .meta{font-size:12px;color:#9ca3af;margin-top:2px}
+        .order .status{font-size:10px;font-weight:700;padding:4px 12px;border-radius:40px;text-transform:uppercase;letter-spacing:.3px}
+        .status-work{background:#e0e7ff;color:#4338ca}
+        .status-done{background:#d1fae5;color:#065f46}
+        .status-wait{background:#fef3c7;color:#92400e}
+        .footer{margin-top:28px;text-align:center;font-size:11px;color:#d1d5db;letter-spacing:.5px}
+        .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);z-index:100;align-items:center;justify-content:center;padding:20px}
+        .modal-overlay.open{display:flex}
+        .modal{background:#fff;border-radius:28px;padding:28px 24px;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.08)}
+        .modal .close{position:absolute;top:16px;right:20px;font-size:22px;color:#d1d5db;cursor:pointer;background:none;border:none;padding:4px 8px;border-radius:8px}
+        .modal .close:hover{background:#f3f4f6}
+        .modal h2{font-size:22px;font-weight:800;letter-spacing:-.4px;margin-bottom:4px}
+        .modal .sub{color:#6b7280;font-size:14px;margin-bottom:24px}
+        .modal label{display:block;font-size:13px;font-weight:600;color:#374151;margin:16px 0 4px}
+        .modal select,.modal input,.modal textarea{width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;font-size:14px;font-family:inherit;background:#fff;color:#1a1a2e;transition:border-color .15s}
+        .modal select:focus,.modal input:focus,.modal textarea:focus{outline:none;border-color:#2563EB}
+        .modal textarea{min-height:80px;resize:vertical}
+        .modal .row{display:flex;gap:10px}
+        .modal .row>*{flex:1}
+        .modal .btn-submit{width:100%;padding:14px;background:#2563EB;border:none;border-radius:14px;color:#fff;font-weight:700;font-size:16px;cursor:pointer;margin-top:20px}
+        .modal .btn-submit:hover{background:#1D4ED8}
+        .modal .btn-submit:active{transform:scale(.98)}
+        .modal .btn-cancel{width:100%;padding:12px;background:transparent;border:none;color:#9ca3af;font-weight:600;font-size:15px;cursor:pointer;margin-top:4px}
+        .modal .btn-cancel:hover{color:#6b7280}
+        @media(max-width:400px){.services{gap:6px}.service{padding:12px 6px}.service .icon{font-size:22px}.modal{padding:24px 16px}}
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="header">
+        <div class="logo"><span class="dev">DEV</span><span class="pulse">PULSE</span><span class="it">IT</span></div>
+        <div class="balance" id="balanceDisplay">0</div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" data-tab="services" onclick="switchTab('services')">Услуги</button>
+        <button class="tab" data-tab="orders" onclick="switchTab('orders')">Заказы</button>
+        <button class="tab" data-tab="profile" onclick="switchTab('profile')">Профиль</button>
+    </div>
+
+    <div id="tabServices">
+        <div class="services">
+            <div class="service active" onclick="openOrder('bot')">
+                <div class="icon">🤖</div>
+                <div class="name">Боты</div>
+                <div class="desc">Telegram / Discord</div>
+            </div>
+            <div class="service" onclick="openOrder('backend')">
+                <div class="icon">⚙️</div>
+                <div class="name">Бэкенд</div>
+                <div class="desc">API / Базы данных</div>
+            </div>
+            <div class="service" onclick="openOrder('frontend')">
+                <div class="icon">🎨</div>
+                <div class="name">Фронтенд</div>
+                <div class="desc">React / Vue / HTML</div>
+            </div>
+            <div class="service" onclick="openOrder('fullstack')">
+                <div class="icon">🚀</div>
+                <div class="name">Fullstack</div>
+                <div class="desc">Всё в одном</div>
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="openOrder()">Создать заказ</button>
+        <button class="btn btn-outline">Мои заказы</button>
+    </div>
+
+    <div id="tabOrders" style="display:none;">
+        <div class="orders">
+            <div class="head">Мои заказы <span class="count" id="orderCount">0</span></div>
+            <div id="ordersList">
+                <div style="text-align:center;color:#9ca3af;padding:40px 0;font-size:14px;">У вас пока нет заказов</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tabProfile" style="display:none;">
+        <div style="text-align:center;padding:30px 0;">
+            <div style="font-size:48px;margin-bottom:8px;">👤</div>
+            <h3 style="font-weight:700;" id="profileName">Пользователь</h3>
+            <p style="color:#9ca3af;font-size:13px;">Баланс: <span style="color:#2563EB;font-weight:700;" id="profileBalance">0</span></p>
+            <div style="display:flex;gap:8px;margin-top:16px;justify-content:center;">
+                <button class="btn btn-primary" style="padding:10px 20px;border-radius:12px;font-size:13px;">Пополнить</button>
+                <button class="btn btn-outline" style="padding:10px 20px;border-radius:12px;font-size:13px;">Вывести</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">DevPulse IT · Разработка под ключ</div>
+</div>
+
+<div class="modal-overlay" id="orderModal">
+    <div class="modal">
+        <button class="close" onclick="closeOrder()">✕</button>
+        <h2>Новый заказ</h2>
+        <div class="sub">Заполните форму, мы свяжемся с вами</div>
+        <label>Тип работы</label>
+        <select id="orderType">
+            <option value="bot">Бот (Telegram / Discord)</option>
+            <option value="backend">Бэкенд (API, базы данных)</option>
+            <option value="frontend">Фронтенд (React, Vue, HTML)</option>
+            <option value="fullstack">Fullstack (всё вместе)</option>
+            <option value="other">Другое</option>
+        </select>
+        <label>Бюджет (USD)</label>
+        <input type="number" id="orderBudget" placeholder="500" value="500">
+        <div class="row">
+            <div>
+                <label>Срок</label>
+                <select id="orderDeadline">
+                    <option value="1">1 день</option>
+                    <option value="3">3 дня</option>
+                    <option value="7" selected>1 неделя</option>
+                    <option value="14">2 недели</option>
+                    <option value="30">1 месяц</option>
+                </select>
+            </div>
+            <div>
+                <label>Срочность</label>
+                <select id="orderUrgency">
+                    <option value="normal">Обычная</option>
+                    <option value="high">Срочно</option>
+                    <option value="very_high">Очень срочно</option>
+                </select>
+            </div>
+        </div>
+        <label>Описание задачи</label>
+        <textarea id="orderDesc" placeholder="Опишите, что нужно сделать"></textarea>
+        <button class="btn-submit" onclick="submitOrder()">Отправить заказ</button>
+        <button class="btn-cancel" onclick="closeOrder()">Отмена</button>
+    </div>
+</div>
+
+<script>
+    function switchTab(tab) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+        document.getElementById('tabServices').style.display = tab === 'services' ? 'block' : 'none';
+        document.getElementById('tabOrders').style.display = tab === 'orders' ? 'block' : 'none';
+        document.getElementById('tabProfile').style.display = tab === 'profile' ? 'block' : 'none';
+    }
+
+    function openOrder(type) {
+        if (type) {
+            document.getElementById('orderType').value = type;
+            document.querySelectorAll('.service').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.service').forEach(el => {
+                const name = el.querySelector('.name').textContent.trim();
+                const map = { 'bot': 'Боты', 'backend': 'Бэкенд', 'frontend': 'Фронтенд', 'fullstack': 'Fullstack' };
+                if (name === map[type]) el.classList.add('active');
+            });
+        }
+        document.getElementById('orderModal').classList.add('open');
+    }
+
+    function closeOrder() {
+        document.getElementById('orderModal').classList.remove('open');
+    }
+
+    document.getElementById('orderModal').addEventListener('click', function(e) {
+        if (e.target === this) closeOrder();
+    });
+
+    function submitOrder() {
+        const desc = document.getElementById('orderDesc').value.trim();
+        if (!desc) { alert('Опишите задачу'); return; }
+        alert('Заказ отправлен!');
+        closeOrder();
+        document.getElementById('orderDesc').value = '';
+    }
+</script>
+</body>
+</html>
